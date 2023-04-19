@@ -1,2 +1,2 @@
 # Innovation
-My own magic game engine, deived from piccolo, 欢迎交流
+My own magic game engine, derived from piccolo, 欢迎交流
