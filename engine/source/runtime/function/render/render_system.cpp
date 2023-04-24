@@ -97,15 +97,18 @@ namespace Piccolo
     void RenderSystem::tick(float delta_time)
     {
         // process swap data between logic and render contexts
+        // 交换前后缓冲区
         processSwapData();
 
         // prepare render command context
         m_rhi->prepareContext();
 
         // update per-frame buffer
+        // Ubo,Light, MVP matrix, etc
         m_render_resource->updatePerFrameBuffer(m_render_scene, m_render_camera);
 
         // update per-frame visible objects
+        // 更新平行光，电光，相机， Axis， particle, 多Pass时分别处理
         m_render_scene->updateVisibleObjects(std::static_pointer_cast<RenderResource>(m_render_resource),
                                              m_render_camera);
 
@@ -115,6 +118,7 @@ namespace Piccolo
         g_runtime_global_context.m_debugdraw_manager->tick(delta_time);
 
         // render one frame
+        // 前向渲染或者延迟渲染
         if (m_render_pipeline_type == RENDER_PIPELINE_TYPE::FORWARD_PIPELINE)
         {
             m_render_pipeline->forwardRender(m_rhi, m_render_resource);
@@ -259,6 +263,7 @@ namespace Piccolo
         ASSERT(asset_manager);
 
         // TODO: update global resources if needed
+        // 更新资源
         if (swap_data.m_level_resource_desc.has_value())
         {
             m_render_resource->uploadGlobalRenderResource(m_rhi, *swap_data.m_level_resource_desc);
@@ -266,7 +271,7 @@ namespace Piccolo
             // reset level resource swap data to a clean state
             m_swap_context.resetLevelRsourceSwapData();
         }
-
+        // 更新GO在render的信息变化
         // update game object if needed
         if (swap_data.m_game_object_resource_desc.has_value())
         {
@@ -281,6 +286,7 @@ namespace Piccolo
 
                     bool is_entity_in_scene = m_render_scene->getInstanceIdAllocator().hasElement(part_id);
 
+                    // 渲染实体
                     RenderEntity render_entity;
                     render_entity.m_instance_id =
                         static_cast<uint32_t>(m_render_scene->getInstanceIdAllocator().allocGuid(part_id));
