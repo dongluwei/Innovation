@@ -130,7 +130,7 @@ namespace Piccolo
         {
             return;
         }
-
+        //
         static_cast<DirectionalLightShadowPass*>(m_directional_light_pass.get())->draw();
 
         static_cast<PointLightShadowPass*>(m_point_light_shadow_pass.get())->draw();
@@ -165,6 +165,7 @@ namespace Piccolo
 
     void RenderPipeline::deferredRender(std::shared_ptr<RHI> rhi, std::shared_ptr<RenderResourceBase> render_resource)
     {
+        // 为何不用智能指针强转
         VulkanRHI*      vulkan_rhi      = static_cast<VulkanRHI*>(rhi.get());
         RenderResource* vulkan_resource = static_cast<RenderResource*>(render_resource.get());
 

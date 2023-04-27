@@ -80,6 +80,7 @@ namespace Piccolo
         {
             LOG_ERROR("Can't find target field.");
         }
+        return T();
     }
 
     void LuaComponent::invoke(std::weak_ptr<GObject> game_object, const char* name)

@@ -15,7 +15,7 @@ namespace Piccolo
     void DirectionalLightShadowPass::initialize(const RenderPassInitInfo* init_info)
     {
         RenderPass::initialize(nullptr);
-
+        // color and depth buffer
         setupAttachments();
         setupRenderPass();
         setupFramebuffer();

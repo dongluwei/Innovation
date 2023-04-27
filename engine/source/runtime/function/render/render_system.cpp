@@ -108,7 +108,7 @@ namespace Piccolo
         m_render_resource->updatePerFrameBuffer(m_render_scene, m_render_camera);
 
         // update per-frame visible objects
-        // 更新平行光，电光，相机， Axis， particle, 多Pass时分别处理
+        // 更新平行光，点光，相机， Axis， particle, 多Pass时分别处理
         m_render_scene->updateVisibleObjects(std::static_pointer_cast<RenderResource>(m_render_resource),
                                              m_render_camera);
 

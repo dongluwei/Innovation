@@ -168,6 +168,7 @@ namespace Piccolo
         }
     }
 
+    // 保证物理设备和应用程序之间的同步
     void VulkanRHI::waitForFences()
     {
         VkResult res_wait_for_fences =
@@ -355,6 +356,7 @@ namespace Piccolo
 
     }
 
+    // 将内存从CommandPool返还给操作系统
     void VulkanRHI::resetCommandPool()
     {
         VkResult res_reset_command_pool = _vkResetCommandPool(m_device, m_command_pools[m_current_frame_index], 0);
