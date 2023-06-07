@@ -12,43 +12,21 @@ layout(location = 0) out highp vec4 out_color;
 
 void main()
 {
-    // highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0);
-    // highp float _COLORS      = float(lut_tex_size.y);
-    // highp vec4 color       = subpassLoad(in_color).rgba;
-
-    // // 256*16
-    // highp float lenX = float(lut_tex_size.x);
-    // highp float lenY = float(lut_tex_size.y);
-
-    // highp vec2 uv;
-    // uv.x = (color.r * lenY * lenY + color.b * lenY) / lenX;
-    // uv.y = color.g;
-    
-    // highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv);
-
-    // out_color = color_sampled;
-    //highp float temp = 0.5f;
-    //highp float temp = lenX / 256.0f; // = 1
-
-    //highp float temp = lenY / 16.0f;
-    //out_color = vec4(temp, temp, temp, 1.0f);
-
     /*highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0);
-    highp float lenY      = float(lut_tex_size.y);
-    highp float lenX      = float(lut_tex_size.x);
-    // 原图像的 RGB
+    highp float _COLORS      = float(lut_tex_size.y);
     highp vec4 color       = subpassLoad(in_color).rgba;
-    // floor(color.b * lenY) * lenY 先计算出每个 Block 的起始位置
-    // color.r * lenY 计算 Block 内的偏移
-    highp float u1 = (color.r * lenY + floor(color.b * lenY) * lenY) / lenX;
-    highp float u2 = (color.r * lenY + ceil(color.b * lenY) * lenY) / lenX;
-    // 由于我们的 LUT 是16 * 256，所以 v 直接就是 g 通道
-    highp float v = color.g;
+
+    // 256*16
+    highp float lenX = float(lut_tex_size.x);
+    highp float lenY = float(lut_tex_size.y);
+
+    highp vec2 uv;
+    uv.x = (color.b * lenY * lenY + color.r * lenY) / lenX;
+    uv.y = color.g;
     
-    // 由于我们 B 通道做了四舍五入，所以需要在两个 Block 之间插值
-    highp vec4 color1 = texture(color_grading_lut_texture_sampler, vec2(u1, v));
-    highp vec4 color2 = texture(color_grading_lut_texture_sampler, vec2(u2, v));
-    out_color = mix(color1, color2, fract(lenY * color.b));*/
+    highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv);
+
+    out_color = color_sampled;*/
 
     highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0);
 
@@ -74,5 +52,5 @@ void main()
 
     highp float weight = fract(color.b * lutSize.y);
 
-    out_color = mix(lutcolorL, lutcolorR, weight);
+    out_color = mix(lutcolorL, lutcolorR, 0.9f);
 }

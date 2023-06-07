@@ -195,8 +195,8 @@ namespace Piccolo
         GLFWwindow*        m_window {nullptr};
         VkInstance         m_instance {nullptr};
         VkSurfaceKHR       m_surface {nullptr};
-        VkPhysicalDevice   m_physical_device {nullptr};
-        VkDevice           m_device {nullptr};
+        VkPhysicalDevice   m_physical_device {nullptr}; // 物理设备
+        VkDevice           m_device {nullptr}; // 逻辑设备
         VkQueue            m_present_queue {nullptr};
 
         VkSwapchainKHR           m_swapchain {nullptr};

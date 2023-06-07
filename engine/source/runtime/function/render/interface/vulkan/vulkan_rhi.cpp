@@ -645,6 +645,7 @@ namespace Piccolo
         instance_create_info.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         instance_create_info.pApplicationInfo = &appInfo; // the appInfo is stored here
 
+        // 扩展
         auto extensions                              = getRequiredExtensions();
         instance_create_info.enabledExtensionCount   = static_cast<uint32_t>(extensions.size());
         instance_create_info.ppEnabledExtensionNames = extensions.data();
@@ -652,6 +653,8 @@ namespace Piccolo
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo {};
         if (m_enable_validation_Layers)
         {
+            // 调用vkDestroyDebugUtilsMessengerEXT必须是在销毁instance之前。这使我们目前无法调试 vkCreateInstance 和 vkDestroyInstance 调用中的任何问题。
+            // 您会发现有一种方法可以专门为这两个函数调用创建单独的调试工具信使。它要求您简单地将指针传递给 VkInstanceCreateInfo 的 pNext 扩展字段中的 VkDebugUtilsMessengerCreateInfoEXT 结构。
             instance_create_info.enabledLayerCount   = static_cast<uint32_t>(m_validation_layers.size());
             instance_create_info.ppEnabledLayerNames = m_validation_layers.data();
 
@@ -700,6 +703,7 @@ namespace Piccolo
         }
     }
 
+    // select suitable physical device
     void VulkanRHI::initializePhysicalDevice()
     {
         uint32_t physical_device_count;
